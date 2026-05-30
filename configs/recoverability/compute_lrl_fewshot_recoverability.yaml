@@ -1,0 +1,54 @@
+defaults:
+  - /dataset: polyrefuse
+  - _self_
+
+models:
+  - name: Qwen/Qwen2.5-7B-Instruct
+    short: Qwen2.5-7B
+    layer: 15
+  - name: google/gemma-2-9b-it
+    short: Gemma-2-9B
+    layer: 20
+  - name: meta-llama/Llama-3.1-8B-Instruct
+    short: Llama-3.1-8B
+    layer: 10
+
+languages: [sw, am, my, km, si, yo]
+budgets: [1, 2, 4, 8, 16, 32, 64]
+seeds: 10
+seed_offset: 0
+
+train_split: train
+test_split: test
+token_position: t_post_inst
+device: auto
+
+activations_root_template: artifacts/activations/{model}
+pooled_direction_root_template: artifacts/directions/pooled/method=pc1_of_diffs/{model}
+output_root: artifacts/fewshot_recoverability
+
+include_hrl_direction: true
+include_full_local: true
+include_random_direction_control: true
+include_permutation_control: true
+
+probe:
+  normalize_mean_direction: true
+  logistic:
+    l2: 0.01
+    lr: 0.05
+    epochs: 40
+    standardize: true
+  mlp:
+    hidden_dim: 32
+    dropout: 0.1
+    l2: 0.001
+    lr: 0.001
+    epochs: 40
+    standardize: true
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

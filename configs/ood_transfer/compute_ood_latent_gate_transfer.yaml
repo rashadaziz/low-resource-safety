@@ -1,0 +1,70 @@
+defaults:
+  - /dataset: polyrefuse
+  - _self_
+
+models:
+  - name: Qwen/Qwen2.5-7B-Instruct
+    short: Qwen2.5-7B
+    layer: 15
+  - name: google/gemma-2-9b-it
+    short: Gemma-2-9B
+    layer: 20
+  - name: meta-llama/Llama-3.1-8B-Instruct
+    short: Llama-3.1-8B
+    layer: 10
+
+target_languages:
+  - multijail_en
+  - multijail_zh
+  - multijail_it
+  - multijail_vi
+  - multijail_ar
+  - multijail_ko
+  - multijail_th
+  - multijail_bn
+  - multijail_sw
+  - multijail_jv
+  - indosafety_id
+  - indosafety_id_colloquial
+  - indosafety_jv
+  - indosafety_su
+  - indosafety_min
+
+source_train_split: train
+target_train_split: train
+target_test_split: test
+token_position: t_post_inst
+device: auto
+rank: 10
+budget: 1
+seeds: 10
+seed_offset: 0
+threshold_selection: global_balanced
+
+source_activations_root_template: artifacts/activations/{model}
+ood_activations_root_template: artifacts/ood_activations_v2/{model}
+output_root: artifacts/ood_latent_gate_transfer_v2
+
+gates:
+  include_hrl_direction: true
+  include_hrl_subspace: true
+  include_target_direction: false
+
+category_breakdown:
+  enabled: true
+  dataset_root: data/ood_transfer_v2
+  columns: [risk_area, types_of_harm]
+  min_harmful: 1
+
+subspace_logistic:
+  l2: 0.01
+  lr: 0.05
+  epochs: 80
+  standardize: true
+  balanced_loss: true
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

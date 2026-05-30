@@ -1,0 +1,16 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - /generation: greedy
+  - _self_
+
+splits: [test]
+subsets: [harmful, harmless]
+output_root: artifacts/completions/${model.name}/gen=${generation.name}
+overwrite: false
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

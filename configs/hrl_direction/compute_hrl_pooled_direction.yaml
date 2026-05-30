@@ -1,0 +1,19 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - _self_
+
+pool: hrl
+languages: [en, de, fr, es, it, nl, pl, ru, zh, ja]
+input_method: diff_of_means
+input_root: artifacts/directions/method=${input_method}/${model.name}
+output_root: artifacts/directions/pooled/method=pc1_of_diffs/${model.name}
+split: train
+token_position: t_post_inst
+normalize: true
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

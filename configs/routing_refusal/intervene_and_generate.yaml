@@ -1,0 +1,24 @@
+# @package _global_
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - /generation: greedy
+  - _self_
+  - /intervention: directional_ablation
+
+method: diff_of_means
+directions_root: artifacts/directions/method=${method}/${model.name}
+activations_root: artifacts/activations/${model.name}
+pooled_root: artifacts/directions/pooled/method=pc1_of_diffs/${model.name}
+output_root: artifacts/completions_intervened/${model.name}/gen=${generation.name}/${intervention.name}
+
+splits: [test]
+subsets: [harmful]
+target_languages: ${dataset.languages}
+overwrite: false
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

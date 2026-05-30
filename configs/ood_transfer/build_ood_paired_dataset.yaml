@@ -1,0 +1,45 @@
+defaults:
+  - /dataset: polyrefuse
+  - _self_
+
+output_root: data/ood_transfer_v2
+rows_path: artifacts/ood_transfer_v2/paired_rows.csv
+seed: 42
+max_harmful_per_language: null
+harmless_train_split: train
+harmless_test_split: test
+fallback_harmless_language: en
+harmless_translation_root: data/ood_harmless_translations
+
+multijail:
+  enabled: true
+  languages:
+    - {code: en}
+    - {code: zh}
+    - {code: it}
+    - {code: vi, harmless_language: vi}
+    - {code: ar}
+    - {code: ko}
+    - {code: th}
+    - {code: bn, harmless_language: bn}
+    - {code: sw}
+    - {code: jv, harmless_language: jv}
+
+indosafety:
+  enabled: true
+  optional: true
+  source_root: data/external/IndoSafety/dataset
+  instruction_columns: [instruction, prompt, question, text, unsafe_prompt, harmful_prompt]
+  category_columns: [risk_area, types_of_harm, specific_harms]
+  languages:
+    - {code: id, aliases: [id, indo, indonesian, indonesia, formal, indonesian-formal], harmless_language: id}
+    - {code: id_colloquial, aliases: [colloquial, informal, gaul], harmless_language: id_colloquial}
+    - {code: jv, aliases: [jv, java, javanese], harmless_language: jv}
+    - {code: su, aliases: [su, sunda, sundanese], harmless_language: su}
+    - {code: min, aliases: [min, minang, minangkabau], harmless_language: min}
+
+hydra:
+  run:
+    dir: artifacts/ood_transfer_v2
+  job:
+    chdir: false

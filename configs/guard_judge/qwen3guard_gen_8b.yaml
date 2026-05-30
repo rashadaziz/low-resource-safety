@@ -1,0 +1,39 @@
+name: qwen3guard_gen_8b
+model_name: Qwen/Qwen3Guard-Gen-8B
+parser: qwen3guard
+revision: null
+dtype: bfloat16
+device_map: auto
+trust_remote_code: false
+batch_size: 8
+max_new_tokens: 128
+do_sample: false
+temperature: 0.0
+top_p: 1.0
+repetition_penalty: 1.0
+add_generation_prompt: null
+supported_languages:
+  - en
+  - de
+  - fr
+  - es
+  - it
+  - nl
+  - pl
+  - ru
+  - zh
+  - ja
+  - ar
+  - ko
+  - th
+  - el
+  - he
+  - hi
+  - fa
+  - sw
+  - my
+  - km
+  - si
+tokenizer:
+  padding_side: left
+  use_fast: true

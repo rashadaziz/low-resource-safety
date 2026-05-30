@@ -1,0 +1,35 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.env
+
+# Research artifacts & vendored data
+artifacts/
+data/
+outputs/
+multirun/
+.hydra/
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Top-level run logs
+*.log
+
+# Claude Code local state
+.claude/
+
+# Runpod workflow config, helper scripts, and local state
+.runpod.env
+.runpod.env.example
+.runpod.state
+scripts/runpod/

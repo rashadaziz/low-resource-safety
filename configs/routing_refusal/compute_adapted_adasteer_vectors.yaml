@@ -1,0 +1,22 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - _self_
+
+dataset_config: configs/dataset/polyrefuse.yaml
+source_languages: [sw, am, my, km, si, yo]
+train_split: train
+subsets: [harmful, harmless]
+budget_per_class: 32
+seed: 0
+batch_size: 8
+max_length: 512
+output_root: artifacts/external/adasteer_adapted_polyrefuse_b32
+overwrite: false
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false
+

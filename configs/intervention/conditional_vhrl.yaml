@@ -1,0 +1,39 @@
+# @package _global_
+intervention:
+  name: conditional_vhrl
+  mode: conditional_vhrl
+
+dataset_config: configs/dataset/polyrefuse.yaml
+train_split: train
+evaluation_split: test
+subsets: [harmful, harmless]
+target_languages: [sw, am, my, km, si, yo]
+source_languages: [en, de, fr, es, it, nl, pl, ru, zh, ja]
+
+layer: ${model.conditional_layer}
+rank: 10
+budget: 64
+token_position: t_post_inst
+samples_per_subset: null
+seed: 0
+
+activations_root: artifacts/activations/${model.name}
+pooled_root: artifacts/directions/pooled/method=pooled_dim/${model.name}
+output_root: artifacts/completions_conditional_vhrl/${model.name}/gen=${generation.name}
+overwrite: false
+
+alpha_calibration_split: train
+alpha_projection_harmful_quantile: 0.75
+alpha_projection_harmless_quantile: 0.25
+
+probe_device: cpu
+threshold_objective: balanced_macro_f1
+capture_batch_size: 8
+lambdas: [1.0]
+
+probe:
+  l2: 0.01
+  lr: 0.05
+  epochs: 80
+  standardize: true
+  balanced_loss: true

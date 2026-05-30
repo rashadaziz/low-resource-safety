@@ -1,0 +1,94 @@
+defaults:
+  - /dataset: polyrefuse
+  - _self_
+
+models:
+  - name: Qwen/Qwen2.5-7B-Instruct
+    short: Qwen2.5-7B
+    layer: 15
+  - name: google/gemma-2-9b-it
+    short: Gemma-2-9B
+    layer: 20
+  - name: meta-llama/Llama-3.1-8B-Instruct
+    short: Llama-3.1-8B
+    layer: 10
+
+languages: null
+target_tiers: [high, mid, low]
+budgets: [1, 2, 4, 8, 16, 32, 64]
+seeds: 10
+seed_offset: 0
+ranks: [1, 2, 3, 5, 8, 10]
+
+train_split: train
+val_split: val
+test_split: test
+token_position: t_post_inst
+representation_source: activations
+device: auto
+
+activations_root_template: artifacts/activations/{model}
+output_root: artifacts/probe_method_comparison
+
+include_direction_baselines: true
+include_target_only: true
+include_subspaces: true
+include_oracle_thresholds: true
+threshold_selection: global
+threshold_source: validation
+
+direction_source_groups: [hrl, mrl, lrl_loo, hrl_mrl]
+subspace_source_groups: [hrl, mrl, lrl_loo, hrl_mrl, all_loo]
+
+data_matched_baselines:
+  enabled: true
+  include_zero_shot: true
+  source_groups: [hrl]
+  include_source_direction_threshold: true
+  include_random_direction_threshold: true
+  include_direction_bank_logistic: true
+  include_full_space_logistic: true
+  include_random_subspace_logistic: false
+  include_unsupervised_pca_logistic: true
+
+subspace_logistic:
+  enabled: true
+  include_zero_shot: true
+  include_refit_target_direction: false
+  include_residual_memory: false
+  residual_memory_ranks: [1]
+  l2: 0.01
+  lr: 0.05
+  epochs: 80
+  standardize: true
+  balanced_loss: true
+
+omniguard:
+  enabled: true
+  include_full: true
+  include_budgeted_lrl: true
+  include_finetuned_lrl: true
+  representations_root_template: artifacts/omniguard_representations/{model}
+  uscore_root_template: artifacts/omniguard_uscore/{model}
+  require_uscore_layer: true
+  layer_override: null
+  seeds: 3
+  hidden_dims: [512, 256]
+  dropout: 0.1
+  l2: 0.001
+  lr: 0.0001
+  epochs: 40
+  batch_size: 256
+  standardize: true
+  balanced_loss: true
+  budgeted_source_group: hrl_mrl
+  finetune_lr: 0.00005
+  finetune_l2: 0.001
+  finetune_epochs: 20
+  finetune_batch_size: 0
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

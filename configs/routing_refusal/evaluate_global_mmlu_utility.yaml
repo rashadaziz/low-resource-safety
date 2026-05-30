@@ -1,0 +1,31 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - /intervention: conditional_vhrl
+  - _self_
+
+dataset_name: CohereLabs/Global-MMLU
+split: test
+languages: ${target_languages}
+modes: [base, conditional_vhrl]
+seed: 0
+max_samples_per_language: null
+refresh_dataset_configs: false
+output_root: artifacts/global_mmlu_utility/${model.name}
+overwrite: false
+
+answer_label_variants:
+  - "{label}"
+  - " {label}"
+  - "{label}."
+  - " {label}."
+
+evaluation:
+  batch_size: 8
+  variant_reduce: max
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

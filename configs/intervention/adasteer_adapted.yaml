@@ -1,0 +1,14 @@
+name: adasteer_adapted
+mode: adasteer
+
+# HRL + 32 LRL AdaSteer vectors produced by:
+#   scripts/routing_refusal/compute_adapted_adasteer_vectors.py
+vector_root: artifacts/external/adasteer_adapted_polyrefuse_b32
+direction_source_lang: polyrefuse_b32
+
+# AdaSteer upstream applies prompt-derived coefficients to every decoder layer
+# during generated-token decoding. Keep this as the full model range.
+layer_range:
+  start: 0
+  end: null
+  step: 1

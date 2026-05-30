@@ -1,0 +1,5 @@
+hook_point: residual_stream
+backend: nnsight
+layers: all
+batch_size: 2
+storage_dtype: bfloat16

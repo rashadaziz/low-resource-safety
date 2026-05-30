@@ -1,0 +1,18 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - _self_
+
+pool: hrl
+languages: [en, de, fr, es, it, nl, pl, ru, zh, ja]
+activations_root: artifacts/activations/${model.name}
+output_root: artifacts/directions/pooled/method=pooled_dim/${model.name}
+split: train
+token_position: t_post_inst
+normalize: true
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

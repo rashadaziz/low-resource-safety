@@ -1,0 +1,19 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - _self_
+
+method: diff_of_means
+activations_root: artifacts/activations/${model.name}
+output_root: artifacts/directions/method=${method}/${model.name}
+
+languages: ${dataset.languages}
+split: train
+token_position: t_post_inst
+normalize: true
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

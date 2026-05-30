@@ -1,0 +1,71 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - /generation: greedy
+  - _self_
+
+cast:
+  # cast_zero_shot: train/tune on CAST's released data only.
+  # cast_adapted: train on the same PolyRefuse LRL train budget used by our method
+  # and tune condition hyperparameters on PolyRefuse validation data.
+  variant: cast_zero_shot
+  training_source: official  # official | polyrefuse
+
+  artifact_root: artifacts/cast/${cast.variant}/${model.name}
+  official_data_root: artifacts/external/activation-steering/docs/demo-data
+  retrain: false
+  retune: false
+
+  method: pca_pairwise
+  train_add_generation_prompt: false
+  condition_pool: mean
+  behavior_pool: suffix
+  adapted_behavior_pool: last
+  inference_condition_mode: mean
+  apply_behavior_on_first_call: true
+
+  condition_layers:
+    start: 1
+    end: 14
+    step: 1
+  behavior_layers:
+    start: 15
+    end: 24
+    step: 1
+  behavior_strength: 1.5
+
+  threshold:
+    min: 0.0
+    max: 0.06
+    step: 0.0001
+    max_layers_to_combine: 1
+
+  # CAST own-data zero-shot settings.
+  official_condition_split: train
+  official_tune_split: test
+  official_condition_max_pairs: null
+  official_tune_max_pairs: null
+  official_behavior_questions: 100
+  official_behavior_suffixes: 100
+
+  # PolyRefuse adapted settings.
+  source_languages: [sw, am, my, km, si, yo]
+  budget_per_class: 32
+  train_split: train
+  tune_split: val
+  seed: 42
+
+  extraction_batch_size: 4
+  max_length: null
+
+output_root: artifacts/completions_cast/${cast.variant}/${model.name}/gen=${generation.name}
+target_languages: [sw, am, my, km, si, yo]
+splits: [test]
+subsets: [harmful, harmless]
+overwrite: false
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

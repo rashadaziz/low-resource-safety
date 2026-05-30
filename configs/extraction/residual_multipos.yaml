@@ -1,0 +1,5 @@
+hook_point: residual_stream
+layers: all
+token_positions: [t_inst, t_post_inst]
+batch_size: 4  # tuned for Burmese/Sinhala with mean ≥130 tokens; larger sizes thrashed VRAM on RTX 5080.
+storage_dtype: bfloat16

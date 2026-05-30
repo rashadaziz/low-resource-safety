@@ -1,0 +1,37 @@
+name: polyrefuse
+root: data/polyrefuse
+languages: [en, de, fr, es, it, nl, pl, ru, zh, ja, ar, ko, th, el, he, hi, fa, sw, am, my, km, si, yo]
+splits: [train, val, test]
+subsets: [harmful, harmless]
+max_samples: null
+shuffle: false
+seed: 42
+
+# Resource tier from CommonCrawl CC-MAIN-2026-12 share:
+#   high  >1%      en, de, fr, es, it, nl, pl, ru, zh, ja
+#   mid   0.1%-1%  ar, ko, th, el, he, hi, fa
+#   low   <0.1%    sw, am, my, km, si, yo
+resource_tier:
+  en: high
+  de: high
+  fr: high
+  es: high
+  it: high
+  nl: high
+  pl: high
+  ru: high
+  zh: high
+  ja: high
+  ar: mid
+  ko: mid
+  th: mid
+  el: mid
+  he: mid
+  hi: mid
+  fa: mid
+  sw: low
+  am: low
+  my: low
+  km: low
+  si: low
+  yo: low

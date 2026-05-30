@@ -1,0 +1,44 @@
+defaults:
+  - /dataset: polyrefuse
+  - _self_
+
+models:
+  - name: Qwen/Qwen2.5-7B-Instruct
+    short: Qwen2.5-7B
+    layer: 15
+  - name: google/gemma-2-9b-it
+    short: Gemma-2-9B
+    layer: 20
+  - name: meta-llama/Llama-3.1-8B-Instruct
+    short: Llama-3.1-8B
+    layer: 10
+
+conditions:
+  - hrl_to_target
+  - hrl_plus_lrl_full
+  - hrl_plus_mrl_full
+
+train_split: train
+val_split: val
+test_split: test
+token_position: t_post_inst
+device: auto
+rank: 10
+seed_offset: 0
+threshold_selection: global
+
+activations_root_template: artifacts/activations/{model}
+output_root: artifacts/crosslingual_subspace_transfer
+
+subspace_logistic:
+  l2: 0.01
+  lr: 0.05
+  epochs: 80
+  standardize: true
+  balanced_loss: true
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

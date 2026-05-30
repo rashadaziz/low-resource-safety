@@ -1,0 +1,18 @@
+# @package _global_
+defaults:
+  - /dataset: polyrefuse
+  - /judge: refusal_openrouter
+  - _self_
+
+completions_root: ???
+splits: [test]
+subsets: [harmful, harmless]
+output_root: artifacts/refusal/${judge.name}/${oc.select:model_name,unknown-model}
+overwrite: false
+model_name: unknown-model
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

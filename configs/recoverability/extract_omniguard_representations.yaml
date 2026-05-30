@@ -1,0 +1,18 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - /extraction: omniguard_mean_prompt
+  - _self_
+
+output_root: artifacts/omniguard_representations/${model.name}
+overwrite: false
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false
+  sweep:
+    dir: multirun/extract_omniguard_representations
+    subdir: ${hydra.job.num}
+

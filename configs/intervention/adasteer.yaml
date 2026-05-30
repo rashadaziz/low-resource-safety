@@ -1,0 +1,14 @@
+name: adasteer
+mode: adasteer
+
+# Released AdaSteer vectors are stored under:
+#   ${vector_root}/{qwen25-7b-instruct,llama31-8b-instruct,gemma2-9b-it}/{HD,RD}/*.pkl
+vector_root: artifacts/external/adasteer
+direction_source_lang: released
+
+# AdaSteer upstream applies prompt-derived coefficients to every decoder layer
+# during generated-token decoding. Keep this as the full model range.
+layer_range:
+  start: 0
+  end: null
+  step: 1

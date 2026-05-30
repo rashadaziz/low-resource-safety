@@ -1,0 +1,17 @@
+defaults:
+  - /model: qwen2.5-7b-instruct
+  - /dataset: polyrefuse
+  - /extraction: residual_multipos
+  - _self_
+
+output_root: artifacts/activations/${model.name}
+overwrite: false
+
+hydra:
+  run:
+    dir: ${output_root}
+  sweep:
+    dir: ${output_root}
+    subdir: ${hydra.job.num}
+  job:
+    chdir: false

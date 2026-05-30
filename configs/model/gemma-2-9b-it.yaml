@@ -1,0 +1,13 @@
+name: google/gemma-2-9b-it
+revision: null
+dtype: bfloat16
+device_map: auto
+trust_remote_code: false
+conditional_layer: 20
+quantization: null
+tokenizer:
+  padding_side: left
+  use_fast: true
+chat:
+  add_generation_prompt: true
+  system_prompt: null

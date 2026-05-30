@@ -1,0 +1,20 @@
+name: directional_ablation
+mode: directional_ablation
+# Source of the harmful direction:
+#   'per_language' — each target lang uses its own direction (requires direction_estimator's artifacts per lang)
+#   'hrl_pooled_dim' — pooled HRL difference-in-means direction (pooled_root); direction_estimator is ignored
+#   'hrl_pooled'   — legacy pooled PC-1 direction kept for old artifacts
+#   <lang>         — a fixed language name (e.g. 'en') used for every target lang
+direction_source_lang: en
+direction_estimator: diff_of_means   # diff_of_means | pca_top1
+direction_split: train
+# Layer range to ablate.
+layer_range:
+  start: 18
+  end: 36
+  step: 1
+# Optional: override the direction-derivation layer independently of layer_range. If null, the
+# direction is loaded from `layer_range.end - 1` (legacy behavior). Used by the anchor-layer sweep.
+direction_layer: null
+# Probe direction's token position. Intervention uses the same v across all generated tokens.
+token_position: t_post_inst

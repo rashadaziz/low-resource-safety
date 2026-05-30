@@ -1,0 +1,25 @@
+defaults:
+  - /dataset: polyrefuse
+  - /guard_judge: qwen3guard_gen_8b
+  - _self_
+
+generator_models:
+  - Qwen/Qwen2.5-7B-Instruct
+  - google/gemma-2-9b-it
+  - meta-llama/Llama-3.1-8B-Instruct
+
+completions_root: artifacts/completions
+gen_tag: gen=greedy
+splits: [test]
+subsets: [harmful, harmless]
+languages: null
+output_root: artifacts/refusal/${guard_judge.name}
+overwrite: false
+dry_run: false
+fail_on_missing: true
+
+hydra:
+  run:
+    dir: ${output_root}
+  job:
+    chdir: false

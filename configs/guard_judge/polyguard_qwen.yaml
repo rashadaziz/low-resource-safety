@@ -1,0 +1,32 @@
+name: polyguard_qwen
+model_name: ToxicityPrompts/PolyGuard-Qwen
+parser: polyguard
+revision: null
+dtype: bfloat16
+device_map: auto
+trust_remote_code: false
+batch_size: 4
+max_new_tokens: 128
+do_sample: false
+temperature: 0.0
+top_p: 1.0
+repetition_penalty: 1.0
+add_generation_prompt: true
+supported_languages:
+  - ar
+  - zh
+  - nl
+  - en
+  - fr
+  - de
+  - hi
+  - th
+  - it
+  - ja
+  - ko
+  - pl
+  - ru
+  - es
+tokenizer:
+  padding_side: left
+  use_fast: true
